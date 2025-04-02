@@ -1,6 +1,6 @@
-##################################
-Metadata Flow and Usage Guidelines
-##################################
+##############################################
+Observatory Metadata Flow and Usage Guidelines
+##############################################
 
 .. abstract::
 
