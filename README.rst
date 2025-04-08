@@ -3,9 +3,9 @@
 .. image:: https://github.com/lsst/rtn-096/workflows/CI/badge.svg
    :target: https://github.com/lsst/rtn-096/actions/
 
-##################################
-Metadata Flow and Usage Guidelines
-##################################
+##############################################
+Observatory Metadata Flow and Usage Guidelines
+##############################################
 
 RTN-096
 =======

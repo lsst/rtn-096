@@ -17,6 +17,11 @@ name.given = "Erik"
 name.family = "Dennihy"
 internal_id = "dennihye"
 
+[[technote.authors]]
+name.given = "Lynne"
+name.family = "Jones"
+internal_id = "lynnej"
+
 [[technote.authors.affiliations]]
 name = "Vera C. Rubin Observatory Project Office"
 internal_id = "RubinObs"
