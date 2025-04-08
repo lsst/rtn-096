@@ -88,17 +88,47 @@ the science_program must match the name of the JSON BLOCK being used to acquire 
 The value of the "program" within that JSON BLOCK could be overriden with a different string,
 and program can also be overriden in the scripts called from the BLOCK.
 
+Some existing values for science_program::
+
+    BLOCK-T215, BLOCK-320, spec-survey
+
+
 observation_reason
 ------------------
 The observation_reason can be set from the FBS or can be overriden in the JSON BLOCK or script.
+
+Some existing values for observation_reason::
+
+    INTRA_SITCOM-1491v2, EXTRA_SITCOM-1491v2, INFOCUS_SITCOM-1491v2, 'Rotator_Check',
+    x_offset, x_offset_-50, x_offset_50
+
 
 target_name
 -----------
 The target_name can be set from the FBS but is also often set from the scripts run from the JSON BLOCK.
 
+Some existing values for target_name::
+
+    Fornax_dSph, NGC1097, BLOCK-T81, slew_icrs, FeatureSchedulerTarget
+
+
+scheduler_note / note
+---------------------
+Set by the FBS or by a JSON BLOCK.
+
+Some possible future values for scheduler_note::
+
+    CANDIDATE:HD60753, 'blob_long, gr, a', 'DD:XMM_LSS, 314', 'pair_15, iz, b', 'pair_33, iz, b'
+
+
 img_type
 --------
 Set from the scripts.
+
+Some existing values for img_type::
+
+    CWFS, BIAS, DARK, FLAT, OBJECT, ACQ, FOCUS, ENGTEST, STUTTERED
+
 
 group_id
 --------
@@ -106,11 +136,20 @@ Set by the Scheduler.
 For a limited set of calibration JSON BLOCKs run via the "add_block" command (not through the FBS),
 the group_id will be the BLOCK-XXX number plus an incrementing integer number.
 For most blocks,
-the group_id is a string starting with the time of the first exposure associated with a given script.
+the group_id is a string starting with the time that the observing script associated with that exposure reaches the top of the ScriptQueue.
 
-scheduler_note / note
----------------------
-Set by the FBS or by a JSON BLOCK.
+Some existing values for group_id::
+
+    2024-10-25T03:51:17.756#1, BT220_O_20241024_000001, 2024-11-06T04:40:51.280, 2024-10-25T03:36:54.070#2,
+
+
+
+
+target_id
+---------
+
+Set by the FBS.
+
 
 Requested targets from the FBS are retrievable in the EFD under the lsst.sal.Scheduler.logevent_target topic;
 it is worth noting that only the "note" and "target_name" are saved in this topic (observation_reason and science_program are not).
@@ -119,12 +158,13 @@ lsst.sal.Scheduler.logevent_observation topic;
 information can be linked from target to observation using targetId.
 Acquired visits (there may be several visits per target or observation) arrive in the Butler and ConsDb.
 In the ConsDb, the targetId is (not yet) available to link to the original requested target.
+I assume that targetId would become target_id at the ConsDB (?).
 
 
 Observatory Metadata Examples
 =============================
 
-Examples of some uses of these metadata keys.
+Examples of some general uses of these metadata keys.
 
 AOS triplets used observation_reason to indicate the extra-, intra-, and in-focus visits within their single JSON BLOCK.
 The different JSON BLOCKs corresponded to different test cases.
@@ -135,7 +175,7 @@ also had target_name available.
 
 General baseline survey observations will use science_program to indicate the JSON BLOCK to use for the observations
 (which take all parameters for a single slew + track + acquire visit as configuration parameters)
-and scheduler_note as a value to indicate which Survey within the FBS CoreScheduler the visit should be 'credited' towards.
+and scheduler_note as a value to indicate which Survey within the FBS CoreScheduler the visit should be 'credited'  as.
 The target_id will be set as a running integer to link requested Targets to EFD Observations (and then to ConsDB Visits).
 The target_name would be set for visits which have a named target (such as the DDF or ToO visits).
 The observation_reason could be set to indicate WFD or DD or near-sun twilight microsurvey (etc).
@@ -146,8 +186,10 @@ The observation_reason could potentially be equivalent to the science_program.
 Observatory Metadata Use-cases
 ==============================
 
-Add specific requirements here:
+Add specific requirements here.
 
+Survey scheduling
+-----------------
 
 The survey scheduling team needs:
 
@@ -157,17 +199,30 @@ The survey scheduling team needs:
 - a way to tell the Scheduler which JSON BLOCK to use for a given visit (currently uses science_program)
 - a way to link acquired visits in the ConsDB with requested targets in the EFD (expect to use targetId)
 
-Additional nice things for the survey scheduling team:
-
-- target_name is a compact way for us to pull out some of the content of the scheduler_note without having to do string subsetting (with the value set by the FBS)
-
+Additional nice things for the survey scheduling team include use of the target_name.
+This is a compact way for us to pull out some of the content of the scheduler_note without having to do string subsetting.
 
 
-Prompt processing needs:
+Prompt processing
+-----------------
 
-- a way to identify which visits to trigger prompt processing, using the 'nextVisit' event, captured in lsst.sal.ScriptQueue.logevent_nextVisit. Current the only metadata key propagated to nextVisit is a "survey" key, which corresponds to the science_program. PP can create a list of science_programs which will trigger prompt processing.
+Prompt processing needs a way to identify which visits to trigger prompt processing,
+using the 'nextVisit' event captured in lsst.sal.ScriptQueue.logevent_nextVisit.
+Currently the only metadata key propagated to nextVisit is a "survey" key,
+which corresponds to the science_program.
+PP can create a list of science_programs which will trigger prompt processing.
 
 
-Calibration processing needs:
+Calibration
+-----------
 
-- a way to unique identify data within a single "run" of a calibration process. This process will ideally be run by the FBS, but will need to use several different JSON BLOCKs to acquire exposures using different scripts. The science_program in the JSON BLOCKs could be overridden to match a single value if desireable. The "run" identifier is not currently available and cannot easily be set without some additional machinery (the 'run' could be stored in the observation_reason if needed, but if science_program is also overriden in the BLOCK, this removes the trace of which JSON BLOCK generated which observation specifically).
+Calibration processing needs a way to unique identify data within a single "run" of a calibration process.
+This process will ideally be run by the FBS,
+but will need to use several different JSON BLOCKs to acquire exposures using different scripts.
+The science_program in the JSON BLOCKs could be overridden to match a single value if desirable.
+The "run" identifier is not currently available and cannot easily be set without some additional machinery.
+One option would be to track an incremental run ID in the FBS and store this in the observation_reason
+or possibly scheduler_note.
+A potential drawback might be if science_program is overriden in the BLOCK to be a single value for all
+contributing content for the 'run', and observation_reason is only the incremental run id,
+then the trace to the JSON BLOCK in use for a given observation could be lost.
