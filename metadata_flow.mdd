@@ -3,10 +3,10 @@ flowchart TD
     -->|Scheduler|C{JSON BLOCK <br> $name <br> $reason <br> $program <br> $note} 
     B[Add BLOCK <br> $name <br> $reason <br> $program <br> $note] 
     -->|Scheduler|C
-    C -->|scripts|D[Ptg.currentTarget.targetName]
-    C -->|scripts|E[Camera.startIntegration.additionalKeys=<br>reason/program]
-    C -->|scripts|F[Camera.imageReadoutParameters.daqAnnotation]
-    D -->G[HeaderService <br> OBJECT<br>REASON<br>PROGRAM<br>OBSANNOT]
+    C -->|scripts|D[Ptg.currentTarget.targetName<br>name]
+    C -->|scripts|E[Camera.startIntegration.additionalKeys<br>reason, program]
+    C -->|scripts|F[Camera.imageReadoutParameters.daqAnnotation<br>note]
+    D -->G[HeaderService<br>OBJECT<br>REASON<br>PROGRAM<br>OBSANNOT]
     E -->G
     F -->G
     G -->H[Butler]
