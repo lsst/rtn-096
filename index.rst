@@ -132,7 +132,7 @@ Some existing values for img_type::
 
 group_id
 --------
-Set by the ScriptQueue (some input from Scheduler?).
+Set by the ScriptQueue, potentially using additional code in the script.
 For a limited set of calibration JSON BLOCKs run via the "add_block" command (not through the FBS),
 the group_id will be the BLOCK-XXX number plus an incrementing integer number.
 For most blocks,
