@@ -197,9 +197,9 @@ I assume that targetId would become target_id at the ConsDB (?).
      - note
      - Camera.imageReadoutParameters.daqAnnotation
      - OBSANNOT
-     - N/A
-     - N/A
-     - N/A (yet)
+     - --
+     - --
+     - -- (needed)
    * - N/A
      - N/A
      - Camera.startIntegration.additionalValues
@@ -218,9 +218,9 @@ I assume that targetId would become target_id at the ConsDB (?).
      - N/A
      - ?
      - ?
-     - N/A
-     - N/A
-     - N/A (yet?)
+     - --
+     - --
+     - -- (needed)
 
 
 All information available in the Butler exposure record::
