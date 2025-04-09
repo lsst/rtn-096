@@ -1,0 +1,14 @@
+flowchart TD
+    A[FBS <br> target_name<br> observation_reason <br> science_program <br>scheduler_note] 
+    -->|Scheduler|C{JSON BLOCK <br> $name <br> $reason <br> $program <br> $note} 
+    B[Add BLOCK <br> $name <br> $reason <br> $program <br> $note] 
+    -->|Scheduler|C
+    C -->|ScriptQueue|D[Ptg.currentTarget.targetName<br>name]
+    C -->|ScriptQueue|E[Camera.startIntegration.additionalKeys<br>reason, program, imageType, groupId]
+    C -->|ScriptQueue|F[Camera.imageReadoutParameters.daqAnnotation<br>note]
+    D -->|HeaderService|G[FITSHEADERS<br>OBJECT<br>REASON<br>PROGRAM<br>OBSANNOT<br>IMGTYPE<br>GROUPID]
+    E -->|HeaderService|G
+    F -->|HeaderService|G
+    G -->|MetadataTranslator|H[ObservationInfo<br>science_program<br>observation_reason<br>target_name<br>observation_type<br>group]
+    H -->I[Butler exposure records<br>science_program<br>observation_reason<br>target_name<br>observation_type<br>group]
+    H -->J[ConsDb<br> target_name<br> observation_reason<br>science_program<br>img_type<br>group_id]
