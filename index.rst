@@ -160,54 +160,6 @@ Acquired visits (there may be several visits per target or observation) arrive i
 In the ConsDb, the targetId is (not yet) available to link to the original requested target.
 I assume that targetId would become target_id at the ConsDB (?).
 
-.. list-table:: Observatory Metadata
-   :widths: 25 25 50 25 25 25
-   :header-rows: 1
-
-   * - FBS
-     - JSON BLOCK
-     - CSC
-     - FITS header
-     - ObservationInfo
-     - ConsDB
-   * - science_program
-     - program
-     - Camera.startIntegration.additionalValues 'program'
-     - PROGRAM
-     - science_program
-     - science_program
-   * - observation_reason
-     - reason
-     - Camera.startIntegration.additionalValues 'reason'
-     - REASON
-     - observation_reason
-     - observation_reason
-   * - target_name
-     - name
-     - Ptg.currentTarget.targetName
-     - OBJECT
-     - target_name
-     - target_name
-   * - scheduler_note
-     - note
-     - Camera.imageReadoutParameters.daqAnnotation
-     - OBSANNOT
-     -
-     -
-   * - N/A
-     - N/A
-     - Camera.startIntegration.groupId
-     - GROUPID
-     - group_id
-     - group_id
-   * - target_id
-     - N/A
-     - ?
-     -
-     -
-     -
-
-
 
 .. list-table:: Observatory Metadata
    :widths: 25 25 50 25 25 25 25
