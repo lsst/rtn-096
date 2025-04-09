@@ -79,7 +79,7 @@ it is likely that a combination of target_name and observation_reason will be us
 Observatory Metadata Flow
 =========================
 
-.. mermaid:: metadata_flow.mdd
+.. mermaid:: metadata_flow.mmd
 
 science_program
 ---------------
