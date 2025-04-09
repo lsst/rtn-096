@@ -204,7 +204,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - N/A
      - Camera.startIntegration.additionalValues
      - GROUPID
-     - group
+     - exposure_group
      - group
      - group_id
    * - N/A
@@ -303,7 +303,7 @@ then the trace to the JSON BLOCK in use for a given observation could be lost.
 Data Management
 ---------------
 
-DMTN-065 lays out some requirements from Data Management for metadata applied to visits and catalogs in order to support general and special processing campaigns.
+`DMTN-065 <https://dmtn-065.lsst.io>`_ :cite:`DMTN-065` lays out some requirements from Data Management for metadata applied to visits and catalogs in order to support general and special processing campaigns.
 DMTN-065 requires a "region" label based on RA/Dec as well as an "observing mode" label to be applied to all visits and catalogs.
 Examples in the technote for region labels include low-dust WFD, galactic plane WFD, dusty plane,
 North Ecliptic Spur, Deep Drilling, and South Celestial Pole.
@@ -325,3 +325,8 @@ The observing mode could be placed into any of the metadata keys,
 although would make most sense to be placed into observation_reason.
 
 Requirements beyond DMTN-065?
+
+References
+==========
+
+.. bibliography::
