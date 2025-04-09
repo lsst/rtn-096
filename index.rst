@@ -160,6 +160,7 @@ Acquired visits (there may be several visits per target or observation) arrive i
 In the ConsDb, the targetId is (not yet) available to link to the original requested target.
 I assume that targetId would become target_id at the ConsDB (?).
 
+
 .. list-table:: Observatory Metadata
    :widths: 25 25 50 25 25 25 25
    :header-rows: 1
@@ -197,6 +198,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - Camera.imageReadoutParameters.daqAnnotation
      - OBSANNOT
      - N/A
+     - N/A
      - N/A (yet)
    * - N/A
      - N/A
@@ -204,10 +206,12 @@ I assume that targetId would become target_id at the ConsDB (?).
      - GROUPID
      - group_id
      - group_id
+     - group_id
    * - target_id
      - N/A
      - ?
      - ?
+     - N/A
      - N/A
      - N/A (yet?)
 
