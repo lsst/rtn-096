@@ -202,11 +202,18 @@ I assume that targetId would become target_id at the ConsDB (?).
      - N/A (yet)
    * - N/A
      - N/A
-     - Camera.startIntegration.groupId
+     - Camera.startIntegration.additionalValues
      - GROUPID
+     - group
+     - group
      - group_id
-     - group_id
-     - group_id
+   * - N/A
+     - N/A
+     - Camera.startIntegration.additionalValues
+     - IMGTYPE (?)
+     - observation_type
+     - observation_type
+     - img_type
    * - target_id
      - N/A
      - ?
@@ -215,6 +222,14 @@ I assume that targetId would become target_id at the ConsDB (?).
      - N/A
      - N/A (yet?)
 
+
+All information available in the Butler exposure record::
+
+    instrument, id, day_obs, group, physical_filter, obs_id,
+    exposure_time, dark_time, observation_type, observation_reason,
+    seq_num, seq_start, seq_end, target_name, science_program, tracking_ra,
+    tracking_dec, sky_angle, azimuth, zenith_angle, has_simulated, can_see_sky,
+    timespan (TAI)
 
 
 Observatory Metadata Examples
