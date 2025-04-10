@@ -162,7 +162,7 @@ I assume that targetId would become target_id at the ConsDB (?).
 
 
 .. list-table:: Observatory Metadata
-   :widths: 25 25 50 25 25 25 25
+   :widths: 25 25 25 50 25 25 25 25
    :header-rows: 1
 
    * - FBS
@@ -303,7 +303,7 @@ The group_id in the JSON BLOCKs could be written as a simple string which would 
 such as is done with the calibration runs currently.
 The science_program would then identify the JSON BLOCK used to generate the set of data,
 with observation_reason identifying subsets of data within the block.
-The group_id would identify the unique run of the block. 
+The group_id would identify the unique run of the block.
 
 
 Data Management
