@@ -290,6 +290,8 @@ Prompt processing needs a way to identify which visits to trigger prompt process
 using the 'nextVisit' event captured in lsst.sal.ScriptQueue.logevent_nextVisit.
 Currently the only metadata key propagated to nextVisit is a "survey" key,
 which corresponds to the science_program.
+Potentially, the contents of the "survey" key could be modified separately from the science_program value,
+by (for example) adding observation_reason or target_name.
 PP can create a list of science_programs which will trigger prompt processing.
 
 
@@ -297,15 +299,11 @@ Calibration
 -----------
 
 Calibration processing needs a way to unique identify data within a single "run" of a calibration process.
-This process will ideally be run by the FBS,
-but will need to use several different JSON BLOCKs to acquire exposures using different scripts.
-The science_program in the JSON BLOCKs could be overridden to match a single value if desirable.
-The "run" identifier is not currently available and cannot easily be set without some additional machinery.
-One option would be to track an incremental run ID in the FBS and store this in the observation_reason
-or possibly scheduler_note.
-A potential drawback might be if science_program is overriden in the BLOCK to be a single value for all
-contributing content for the 'run', and observation_reason is only the incremental run id,
-then the trace to the JSON BLOCK in use for a given observation could be lost.
+The group_id in the JSON BLOCKs could be written as a simple string which would match for the entire block,
+such as is done with the calibration runs currently.
+The science_program would then identify the JSON BLOCK used to generate the set of data,
+with observation_reason identifying subsets of data within the block.
+The group_id would identify the unique run of the block. 
 
 
 Data Management
