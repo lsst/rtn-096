@@ -167,13 +167,15 @@ I assume that targetId would become target_id at the ConsDB (?).
 
    * - FBS
      - JSON BLOCK
-     - CSC
+     - nextVisit
+     - Final CSC
      - FITS header
      - ObservationInfo
      - Butler exposure records
      - ConsDB
    * - science_program
      - program
+     - survey
      - Camera.startIntegration.additionalValues
      - PROGRAM
      - science_program
@@ -181,6 +183,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - science_program
    * - observation_reason
      - reason
+     - --
      - Camera.startIntegration.additionalValues
      - REASON
      - observation_reason
@@ -188,6 +191,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - observation_reason
    * - target_name
      - name
+     - N/A
      - Ptg.currentTarget.targetName
      - OBJECT
      - target_name
@@ -195,6 +199,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - target_name
    * - scheduler_note
      - note
+     - --
      - Camera.imageReadoutParameters.daqAnnotation
      - OBSANNOT
      - --
@@ -202,6 +207,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - -- (needed)
    * - N/A
      - N/A
+     - groupId
      - Camera.startIntegration.additionalValues
      - GROUPID
      - exposure_group
@@ -209,6 +215,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - group_id
    * - N/A
      - N/A
+     - --
      - Camera.startIntegration.additionalValues
      - IMGTYPE (?)
      - observation_type
@@ -216,6 +223,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - img_type
    * - target_id
      - N/A
+     - --
      - ?
      - ?
      - --
