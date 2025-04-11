@@ -191,7 +191,7 @@ I assume that targetId would become target_id at the ConsDB (?).
      - observation_reason
    * - target_name
      - name
-     - N/A
+     - --
      - Ptg.currentTarget.targetName
      - OBJECT
      - target_name
