@@ -90,8 +90,19 @@ and program can also be overriden in the scripts called from the BLOCK.
 
 Some existing values for science_program::
 
-    BLOCK-T215, BLOCK-320, spec-survey
+    BLOCK-T215, BLOCK-320, BLOCK-365, spec-survey
 
+
+In operations, values for engineering tests will be linked to JIRA and Zephyr issue numbers,
+looking like BLOCK-XXX or BLOCK-TXXX. Values for the ComCam science visits were BLOCK-320.
+Values for science visits during commissioning with LSSTCam were BLOCK-365; this includes both
+small field survey visits, SV visits, and also (unfortunately, in retrospect) visits for
+an all-sky AOS test that ran under BLOCK-T458 but was labelled 'block-t548' in the observation_reason.
+
+We plan to put in place a new (yet undefined) value for science visits starting after the shutdown,
+and may transition to another value if there is a clear change in purpose/usefulness of science
+visits as we move into operations. The 'observation_reason' will be overloaded by the FBS configuration
+in these cases, so using 'science_program' is helpful.
 
 observation_reason
 ------------------
@@ -102,6 +113,23 @@ Some existing values for observation_reason::
     INTRA_SITCOM-1491v2, EXTRA_SITCOM-1491v2, INFOCUS_SITCOM-1491v2, 'Rotator_Check',
     x_offset, x_offset_-50, x_offset_50
 
+The current configuration for the FBS produces 'observation_reason' values corresponding to the kind
+of Survey object the visits were requested by. Values during the SV survey included::
+
+    ['template_blob_i_33.0',
+       'pairs_gr_33.0', 'template_blob_r_33.0', 'template_blob_z_33.0',
+       'pairs_ur_33.0', 'template_blob_g_33.0', 'pairs_ri_33.0',
+       'ddf_elaiss1', 'triplet_pairs_iz_33.0', 'pairs_iz_33.0',
+       'pairs_ri_15.0', 'pairs_zy_33.0', 'template_blob_y_33.0',
+       'pairs_yy_33.0', 'too', 'template_area_singles_i', 'singles_i',
+       'pairs_zy_15.0', 'singles_z', 'ddf_edfs_a', 'ddf_ecdfs',
+       'ddf_edfs_b', 'pairs_iz_15.0', 'pairs_yy_15.0',
+       'triplet_pairs_gr_33.0', 'template_blob_u_33.0', 'pairs_ug_33.0',
+       'ddf_xmm_lss', 'singles_r']
+
+Values during the operations survey will be similar, but drop values describing "template_area" and
+add additional values related to special surveys for twilight near-sun visits.
+
 
 target_name
 -----------
@@ -111,6 +139,20 @@ Some existing values for target_name::
 
     Fornax_dSph, NGC1097, BLOCK-T81, slew_icrs, FeatureSchedulerTarget
 
+The current configuration for the FBS produces 'target_name' that describes all of the footprint areas on the
+sky that a given visit will overlap. Values during the SV survey included::
+
+    ['bulgy', 'dusty_plane', 'dusty_plane, lowdust',
+       'dusty_plane, bulgy', 'bulgy, lowdust', 'lowdust',
+       'lowdust, bulgy', 'lowdust, DDF ELAISS1', 'nes, lowdust', 'nes',
+       'dusty_plane, bulgy, lowdust', 'DDF ELAISS1, lowdust',
+       'lowdust, nes', 'lowdust, dusty_plane', 'bulgy, dusty_plane',
+       'lowdust, DDF EDFS_a', 'lowdust, DDF ECDFS', 'lowdust, DDF EDFS_b',
+       'DDF ECDFS, lowdust', 'DDF EDFS_a, lowdust', 'DDF EDFS_b, lowdust',
+       'lowdust, DDF XMM_LSS', 'DDF XMM_LSS, lowdust']
+
+Values during operations will be similar, but in order to ease the use of DDF names between target_name
+and observation_reason, we will lower-case the target names.
 
 scheduler_note / note
 ---------------------
@@ -119,6 +161,23 @@ Set by the FBS or by a JSON BLOCK.
 Some possible future values for scheduler_note::
 
     CANDIDATE:HD60753, 'blob_long, gr, a', 'DD:XMM_LSS, 314', 'pair_15, iz, b', 'pair_33, iz, b'
+
+Values for the SV survey and for the operations survey are configured in a way that
+lets the FBS track internal information; the information in these pieces of metadata
+may or may not be useful for other groups. Values in the SV survey include (among many others)::
+
+    ['pair_33, iz, a', 'pair_33, iz, b', 'pair_33, ri, a',
+       'pair_33, ri, b', 'templates, i', 'pair_33, gr, a',
+       'pair_33, gr, b', 'templates, r', 'templates, z', 'pair_33, ur, a',
+       'pair_33, ur, b', 'templates, g', 'DD:ELAISS1, 56',
+       'DD:ELAISS1, 81', 'DD:ELAISS1, 82', 'DD:ELAISS1, 83',
+       'DD:ELAISS1, 84', 'blob_long, iz, a', 'blob_long, iz, b',
+       'pair_15, ri, a', 'pair_15, ri, b', 'DD:ELAISS1, 89',
+       'DD:ELAISS1, 90', 'DD:ELAISS1, 91', 'DD:ELAISS1, 92',
+       'DD:ELAISS1, 93', 'DD:ELAISS1, 100', 'DD:ELAISS1, 101',
+       'DD:ELAISS1, 106', 'DD:ELAISS1, 107', 'DD:ELAISS1, 108',
+       'DD:ELAISS1, 109', 'DD:ELAISS1, 110', 'pair_33, zy, a',
+       'pair_33, zy, b', 'templates, y', 'pair_33, yy, a',]
 
 
 img_type
@@ -158,7 +217,7 @@ lsst.sal.Scheduler.logevent_observation topic;
 information can be linked from target to observation using targetId.
 Acquired visits (there may be several visits per target or observation) arrive in the Butler and ConsDb.
 In the ConsDb, the targetId is (not yet) available to link to the original requested target.
-I assume that targetId would become target_id at the ConsDB (?).
+TargetId may be repeated if the FBS is restarted without acquiring all of the requested targets.
 
 
 .. list-table:: Observatory Metadata
@@ -259,8 +318,6 @@ The target_id will be set as a running integer to link requested Targets to EFD 
 The target_name would be set according to the corresponding region(s) in the survey footprint.
 The observation_reason could be set to indicate low dust WFD, NES, or DD or near-sun twilight microsurvey (etc),
 matching a generalized description of the observing mode.
-This would leave science_program as either an additional spare key to indicate "visits within the LSST"
-(as opposed to engineering visits) or could be used to convey some additional higher level information.
 
 
 Observatory Metadata Users
@@ -340,7 +397,7 @@ This would then convey information about what part of the survey footprint the T
 The observing mode could be placed into any of the metadata keys,
 although would make most sense to be placed into observation_reason.
 
-Requirements beyond DMTN-065?
+
 
 References
 ==========
